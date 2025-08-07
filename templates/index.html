@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Go To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        form input[type="text"] {
+            width: 70%;
+            padding: 10px;
+        }
+        form input[type="submit"] {
+            padding: 10px 15px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .actions button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>To-Do List</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="New task" required>
+        <input type="submit" value="Add">
+    </form>
+
+    <ul>
+        {{range .tasks}}
+        <li>
+            <span class="{{if .Completed}}completed{{end}}">{{.Title}}</span>
+            <div class="actions">
+                {{if not .Completed}}
+                <form action="/complete/{{.ID}}" method="POST" style="display:inline;">
+                    <button type="submit">Complete</button>
+                </form>
+                {{end}}
+                <form action="/delete/{{.ID}}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+</div>
+</body>
+</html>
